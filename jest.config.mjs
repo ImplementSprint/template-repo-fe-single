@@ -1,4 +1,4 @@
-const nextJest = require('next/jest');
+import nextJest from 'next/jest.js';
 
 const createJestConfig = nextJest({
   dir: './',
@@ -13,7 +13,6 @@ const customJestConfig = {
   collectCoverageFrom: [
     '<rootDir>/src/**/*.{ts,tsx}',
     '!<rootDir>/src/**/*.d.ts',
-    '!<rootDir>/src/app/**/*.{ts,tsx}',
   ],
   coverageReporters: ['text', 'lcov', 'json-summary'],
   coverageThreshold: {
@@ -26,4 +25,4 @@ const customJestConfig = {
   },
 };
 
-module.exports = createJestConfig(customJestConfig);
+export default createJestConfig(customJestConfig);

@@ -1,6 +1,6 @@
-# Call_Template_Single (Next.js)
+# FE Single Template (Next.js)
 
-Minimal Next.js + TypeScript project that **calls reusable CI/CD workflows** from the `CICD-Fe_Single-test` repository.
+Minimal Next.js + TypeScript boilerplate configured to call reusable CI/CD workflows from `ImplementSprint/central-workflow`.
 
 ## Local Commands
 
@@ -14,8 +14,8 @@ npm run build
 
 ## CI/CD Setup Required
 
-This repository does **not** contain its own workflow definitions.  
-Instead, `.github/workflows/master-pipeline-fe-single.yml` calls the reusable workflows hosted in `CICD-Fe_Single-test`.
+This repository keeps a thin caller workflow in `.github/workflows/fe-pipeline-caller.yml`.
+It delegates orchestration to `ImplementSprint/central-workflow/.github/workflows/master-pipeline-fe.yml@v1`.
 
 ### 1) Required Branches
 
@@ -29,20 +29,21 @@ Instead, `.github/workflows/master-pipeline-fe-single.yml` calls the reusable wo
 - `VERCEL_ORG_ID`
 - A secret that stores your Vercel Project ID (for example: `VERCEL_PROJECT_ID_FE_SINGLE`)
 
-For PR auto-creation jobs, also provide one of:
+For promotion PR jobs and deployment comment updates:
 
-- `GH_PR_TOKEN` (preferred), or
-- `GHPR_TOKEN` (legacy)
+- `GH_PR_TOKEN`
 
 ### 3) Required Repository Variable
 
-- `FE_SINGLE_SYSTEM_JSON`
+- `FE_SINGLE_SYSTEMS_JSON`
   - A JSON object (or one-item array) with keys: `name`, `dir`, `image`, `vercel_project_secret`.
   - Example: `{"name":"Frontend-Root","dir":".","image":"fe-single-web","vercel_project_secret":"VERCEL_PROJECT_ID_FE_SINGLE"}`
 
-### 4) Update Workflow Reference
+### 4) Pipeline Behavior
 
-In `.github/workflows/master-pipeline-fe-single.yml`, replace `OWNER/CICD-Fe_Single-test` with the actual GitHub owner/org and repo name where the reusable workflows are hosted.
+- This template is fixed to single mode (`pipeline_mode: single`).
+- Manual dispatch exposes only essential toggles (`enable_playwright`, `enable_grafana_k6`, deploy/promotion and dry-run flags).
+- Branch flow is `test -> uat -> main`.
 
 ### 5) Vercel Project Settings
 
@@ -52,4 +53,5 @@ In `.github/workflows/master-pipeline-fe-single.yml`, replace `OWNER/CICD-Fe_Sin
 ## Notes
 
 - Unit tests generate `coverage/coverage-summary.json` for the test workflow.
-- `Dockerfile` is included so the existing Docker build workflow on `main` can run.
+- `tests/e2e/playwright-e2e.ts` and `tests/performance/k6-smoke.ts` are included so default QA jobs can run without extra setup.
+- `Dockerfile` is included so the main-branch container flow can run.

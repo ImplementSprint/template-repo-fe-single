@@ -62,7 +62,7 @@ async function main() {
     await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
     const text = await page.textContent('body');
 
-    if (!text || !text.includes('Get started by editing')) {
+    if (!text || !text.includes('To get started, edit')) {
       throw new Error('Expected landing page content was not found');
     }
 
