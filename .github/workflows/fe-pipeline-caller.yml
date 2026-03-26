@@ -51,7 +51,7 @@ permissions:
 
 jobs:
   call-orchestrator:
-    # Pin to a stable major tag and update when central-workflow v1 evolves.
+    # Use main until central-workflow publishes a stable release tag.
     uses: ImplementSprint/central-workflow/.github/workflows/master-pipeline-fe.yml@main
     with:
       pipeline_mode: single

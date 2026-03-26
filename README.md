@@ -15,7 +15,7 @@ npm run build
 ## CI/CD Setup Required
 
 This repository keeps a thin caller workflow in `.github/workflows/fe-pipeline-caller.yml`.
-It delegates orchestration to `ImplementSprint/central-workflow/.github/workflows/master-pipeline-fe.yml@v1`.
+It delegates orchestration to `ImplementSprint/central-workflow/.github/workflows/master-pipeline-fe.yml@main`.
 
 ### 1) Required Branches
 
