@@ -1,6 +1,4 @@
-import { describe, expect, it } from "vitest";
-
-import { sum } from "../src/lib/sum";
+import { sum } from "../../src/lib/sum";
 
 describe("sum", () => {
   it("adds positive numbers", () => {
