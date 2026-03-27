@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "jest --coverage",
+    "test": "jest",
     "test:watch": "jest --watch",
     "test:e2e": "tsx tests/e2e/playwright-e2e.ts"
   },
@@ -23,7 +23,7 @@
     "@types/node": "^25.5.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "eslint": "^10.1.0",
+    "eslint": "^9.0.0",
     "eslint-config-next": "16.2.1",
     "jest": "^30.3.0",
     "jest-environment-jsdom": "^30.3.0",
@@ -31,8 +31,5 @@
     "tailwindcss": "^4.2.2",
     "tsx": "^4.21.0",
     "typescript": "^6.0.2"
-  },
-  "overrides": {
-    "minimatch": "^10.2.4"
   }
 }
