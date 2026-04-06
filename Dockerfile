@@ -1,8 +1,8 @@
 FROM node:24-alpine AS base
 WORKDIR /app
 
-# Keep OS and npm toolchain patched to reduce image CVEs surfaced by Trivy.
-RUN apk upgrade --no-cache && npm install -g npm@latest
+# Keep OS packages patched; avoid global npm upgrades that can introduce extra CVEs.
+RUN apk upgrade --no-cache
 
 FROM base AS deps
 WORKDIR /app
