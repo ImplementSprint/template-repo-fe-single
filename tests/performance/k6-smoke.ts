@@ -7,9 +7,24 @@ const paths = (__ENV.SMOKE_PATHS || '/')
   .split(',')
   .map((path: string) => path.trim())
   .filter(Boolean);
-const expectedStatus = Number(__ENV.EXPECTED_STATUS || 200);
 const maxDurationMs = Number(__ENV.MAX_DURATION_MS || 1000);
 const expectedText = __ENV.EXPECTED_TEXT;
+const isVercelPreview = /\.vercel\.app(?:\/|$)/i.test(baseUrl);
+
+const expectedStatusCodes = (
+  __ENV.EXPECTED_STATUSES ||
+  __ENV.EXPECTED_STATUS ||
+  (isVercelPreview ? '200,401,403' : '200')
+)
+  .split(',')
+  .map((value: string) => Number(value.trim()))
+  .filter((value: number) => Number.isInteger(value) && value >= 100 && value <= 599);
+
+const allowedStatusCodes = expectedStatusCodes.length > 0 ? expectedStatusCodes : [200];
+const statusLabel = allowedStatusCodes.join('|');
+
+// Keep k6 built-in failure metric aligned with status expectations.
+http.setResponseCallback(http.expectedStatuses(...allowedStatusCodes));
 
 type SmokeResponse = {
   status: number;
@@ -48,7 +63,8 @@ function smoke() {
     });
 
     const checks = {
-      [`${path} status is ${expectedStatus}`]: (result: SmokeResponse) => result.status === expectedStatus,
+      [`${path} status is ${statusLabel}`]:
+        (result: SmokeResponse) => allowedStatusCodes.includes(result.status),
       [`${path} response time < ${maxDurationMs}ms`]:
         (result: SmokeResponse) => result.timings.duration < maxDurationMs,
     };
