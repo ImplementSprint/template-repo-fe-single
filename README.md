@@ -49,7 +49,7 @@ In `.github/workflows/master-pipeline-fe-single.yml`, replace `OWNER/CICD-Fe_Sin
 - Link this repository to a Vercel project.
 - Set Vercel Root Directory to `.` for this single frontend setup.
 
-## Notess
+## Notes
 
 - Unit tests generate `coverage/coverage-summary.json` for the test workflow.
 - `Dockerfile` is included so the existing Docker build workflow on `main` can run.
