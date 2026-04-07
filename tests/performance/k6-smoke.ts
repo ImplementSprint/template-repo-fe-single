@@ -11,15 +11,11 @@ const maxDurationMs = Number(__ENV.MAX_DURATION_MS || 1000);
 const expectedText = __ENV.EXPECTED_TEXT;
 const isVercelPreview = /\.vercel\.app(?:\/|$)/i.test(baseUrl);
 
-const configuredStatuses = (__ENV.EXPECTED_STATUSES || '').trim();
-const configuredSingleStatus = (__ENV.EXPECTED_STATUS || '').trim();
-
-const statusSource =
-  configuredStatuses ||
-  // Preview deployments can be protected; allow common auth statuses by default.
-  (isVercelPreview ? '200,401,403' : configuredSingleStatus || '200');
-
-const expectedStatusCodes = statusSource
+const expectedStatusCodes = (
+  __ENV.EXPECTED_STATUSES ||
+  __ENV.EXPECTED_STATUS ||
+  (isVercelPreview ? '200,401,403' : '200')
+)
   .split(',')
   .map((value: string) => Number(value.trim()))
   .filter((value: number) => Number.isInteger(value) && value >= 100 && value <= 599);
