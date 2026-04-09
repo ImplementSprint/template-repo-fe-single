@@ -81,8 +81,8 @@ permissions:
 
 jobs:
   call-orchestrator:
-    # Track latest central workflow updates from central-workflow main
-    uses: ImplementSprint/central-workflow/.github/workflows/master-pipeline-fe.yml@main
+    # Track latest central workflow updates
+    uses: ImplementSprint/central-workflow/.github/workflows/master-pipeline-fe.yml@fix/e2e-policy
     with:
       pipeline_mode: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.pipeline_mode || 'auto' }}
       enable_playwright: ${{ github.event_name == 'workflow_dispatch' && fromJSON(github.event.inputs.enable_playwright || 'true') || true }}
